@@ -53,7 +53,14 @@ Response:
   ],
   "report": {
     "totals": { "spam": 0, "promo": 0, "education": 1, "investor": 0, "deals": 0 },
-    "scores": { "spamScore": 100, "engagementScore": 0, "relevanceScore": 100 },
+    "scores": {
+      "spamScore": 100,
+      "engagementScore": 0,
+      "relevanceScore": 100,
+      "networkingScore": 80,
+      "fundraisingScore": 0,
+      "dealSourcingScore": 0
+    },
     "recommendation": "JOIN",
     "summary": "Analyzed 1 posts..."
   }
