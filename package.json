@@ -1,0 +1,32 @@
+{
+  "name": "linkedin-group-intelligence-analyzer-lgia",
+  "version": "1.0.0",
+  "description": "LinkedIn Group Intelligence Analyzer MVP",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "NODE_ENV=development node server.js",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
+  },
+  "keywords": [
+    "linkedin",
+    "analysis",
+    "openai",
+    "puppeteer"
+  ],
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "openai": "^6.10.0",
+    "puppeteer": "^24.32.1"
+  },
+  "devDependencies": {
+    "jest": "^30.2.0"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  }
+}
