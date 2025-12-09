@@ -31,7 +31,7 @@ function validateRequestUrl(url) {
   }
 
   if (!isLikelyLinkedInGroup(parsed)) {
-    const error = new Error('URL must point to a LinkedIn group (e.g., https://www.linkedin.com/groups/<id>)');
+    const error = new Error('URL must point to a LinkedIn group');
     error.statusCode = 400;
     throw error;
   }
@@ -48,24 +48,9 @@ app.post('/analyze', async (req, res) => {
   }
 
   try {
-    console.log(`Received /analyze request for ${targetUrl}`);
     const posts = await scrapePosts(targetUrl);
-    console.log(`Scraped ${posts.length} posts from ${targetUrl}`);
-    let classified;
-    try {
-      classified = await classifyPosts(posts);
-    } catch (error) {
-      console.error('Error during classification', error);
-      throw error;
-    }
-
-    let report;
-    try {
-      report = scoreGroup(classified);
-    } catch (error) {
-      console.error('Error during scoring', error);
-      throw error;
-    }
+    const classified = await classifyPosts(posts);
+    const report = scoreGroup(classified);
 
     return res.json({ url: targetUrl, posts: classified, report });
   } catch (error) {
