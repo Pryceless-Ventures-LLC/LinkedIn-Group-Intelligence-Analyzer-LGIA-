@@ -51,26 +51,20 @@ app.post('/analyze', async (req, res) => {
     console.log(`Received /analyze request for ${targetUrl}`);
     const posts = await scrapePosts(targetUrl);
     console.log(`Scraped ${posts.length} posts from ${targetUrl}`);
-    let classified;
-    try {
-      classified = await classifyPosts(posts);
-    } catch (error) {
-      console.error('Error during classification', error);
-      throw error;
-    }
-
-    let report;
-    try {
-      report = scoreGroup(classified);
-    } catch (error) {
-      console.error('Error during scoring', error);
-      throw error;
-    }
-
+    const classified = await classifyPosts(posts);
+    const report = scoreGroup(classified);
     return res.json({ url: targetUrl, posts: classified, report });
   } catch (error) {
-    console.error('Internal error while analyzing group', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    if (error.message && error.message.includes('classification')) {
+      console.error('Error during classification', error);
+      return res.status(500).json({ error: 'Error during classification' });
+    } else if (error.message && error.message.includes('scoring')) {
+      console.error('Error during scoring', error);
+      return res.status(500).json({ error: 'Error during scoring' });
+    } else {
+      console.error('Internal error while analyzing group', error);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
   }
 });
 
