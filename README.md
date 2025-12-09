@@ -69,6 +69,6 @@ curl -X POST http://localhost:4000/analyze \
 ```
 
 ## Notes
-- Only URLs whose hostnames are on the allowlist and include a `/groups` path will be processed.
+- Only URLs whose hostnames are on the allowlist and include a `/groups/<id>`-style path will be processed (e.g., `https://www.linkedin.com/groups/123456/`).
 - The scraper uses headless Puppeteer by default and relies solely on publicly visible content.
 - Thresholds for spam and relevance can be tuned in `scoring.js`.
