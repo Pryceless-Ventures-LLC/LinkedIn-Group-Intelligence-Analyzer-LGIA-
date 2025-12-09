@@ -19,6 +19,7 @@ async function extractPosts(page, limit) {
     const postSelectors = ['[data-urn^="urn:li:activity"]', 'article'];
     const elements = postSelectors.flatMap((selector) => Array.from(document.querySelectorAll(selector)));
     const uniqueElements = Array.from(new Set(elements));
+    const uniqueElements = Array.from(new Set(elements)).slice(0, max);
 
     return uniqueElements
       .map((el) => ({
@@ -48,6 +49,14 @@ export async function scrapePosts(groupUrl, maxPosts = MAX_POSTS) {
 
     const posts = await extractPosts(page, maxPosts);
     console.log(`Scraped ${posts.length} posts (limit ${maxPosts})`);
+    // Attempt to load additional posts with a few scrolls
+    for (let i = 0; i < 3; i += 1) {
+      await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+      await page.waitForTimeout(1000);
+    }
+
+    const posts = await extractPosts(page, maxPosts);
+    console.log(`Scraped ${posts.length} posts`);
     return posts;
   } catch (error) {
     console.error('Error during scraping', error);

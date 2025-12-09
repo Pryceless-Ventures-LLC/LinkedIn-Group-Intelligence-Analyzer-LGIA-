@@ -66,6 +66,9 @@ app.post('/analyze', async (req, res) => {
       console.error('Error during scoring', error);
       throw error;
     }
+    const posts = await scrapePosts(targetUrl);
+    const classified = await classifyPosts(posts);
+    const report = scoreGroup(classified);
 
     return res.json({ url: targetUrl, posts: classified, report });
   } catch (error) {
