@@ -31,7 +31,7 @@ function validateRequestUrl(url) {
   }
 
   if (!isLikelyLinkedInGroup(parsed)) {
-    const error = new Error('URL must point to a LinkedIn group');
+    const error = new Error('URL must point to a LinkedIn group (e.g., https://www.linkedin.com/groups/<id>)');
     error.statusCode = 400;
     throw error;
   }
