@@ -31,7 +31,7 @@ function validateRequestUrl(url) {
   }
 
   if (!isLikelyLinkedInGroup(parsed)) {
-    const error = new Error('URL must point to a LinkedIn group (e.g., https://www.linkedin.com/groups/<id>)');
+    const error = new Error('URL must point to a LinkedIn group');
     error.statusCode = 400;
     throw error;
   }
@@ -48,23 +48,14 @@ app.post('/analyze', async (req, res) => {
   }
 
   try {
-    console.log(`Received /analyze request for ${targetUrl}`);
     const posts = await scrapePosts(targetUrl);
-    console.log(`Scraped ${posts.length} posts from ${targetUrl}`);
     const classified = await classifyPosts(posts);
     const report = scoreGroup(classified);
+
     return res.json({ url: targetUrl, posts: classified, report });
   } catch (error) {
-    if (error.message && error.message.includes('classification')) {
-      console.error('Error during classification', error);
-      return res.status(500).json({ error: 'Error during classification' });
-    } else if (error.message && error.message.includes('scoring')) {
-      console.error('Error during scoring', error);
-      return res.status(500).json({ error: 'Error during scoring' });
-    } else {
-      console.error('Internal error while analyzing group', error);
-      return res.status(500).json({ error: 'Internal server error' });
-    }
+    console.error('Internal error while analyzing group', error);
+    return res.status(500).json({ error: 'Internal server error' });
   }
 });
 
