@@ -16,6 +16,9 @@ jobs:
   frontend-ci:
     name: Frontend CI (React)
     runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
 
     defaults:
       run:
@@ -46,6 +49,10 @@ jobs:
     name: Backend CI/CD (Flask on AWS ECS)
     runs-on: ubuntu-latest
     needs: [frontend-ci] # only deploy backend if frontend passes
+    
+    permissions:
+      contents: read
+      id-token: write  # Required for AWS OIDC authentication (if using)
 
     env:
       AWS_REGION: ${{ secrets.AWS_REGION }}
