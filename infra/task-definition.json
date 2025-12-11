@@ -17,16 +17,7 @@
           "protocol": "tcp"
         }
       ],
-      "environment": [
-        {
-          "name": "ENVIRONMENT",
-          "value": "dev"
-        },
-        {
-          "name": "FLASK_ENV",
-          "value": "production"
-        }
-      ],
+      "environment": [],
       "secrets": [
         {
           "name": "OPENAI_API_KEY_DEV",

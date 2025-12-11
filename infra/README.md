@@ -37,7 +37,7 @@ Navigate to **Settings → Secrets and variables → Actions** in your GitHub re
 The workflow uses `infra/task-definition.json` as the base ECS task definition. This file must be committed to the repository and should include:
 
 1. **Container name**: Must be `backend` (referenced in the workflow)
-2. **Environment variables**: Such as `ENVIRONMENT`, `FLASK_ENV`, etc.
+2. **Environment variables**: Can be added to the `environment` array if needed. Environment-specific variables like `ENVIRONMENT` or `FLASK_ENV` should be configured at the ECS service level or through task definition overrides to match the target deployment environment.
 3. **Secrets**: References to AWS Secrets Manager for sensitive data like:
    - `OPENAI_API_KEY_DEV` / `OPENAI_API_KEY_PREVIEW` / `OPENAI_API_KEY_PROD`
    - `HF_API_KEY_DEV` / `HF_API_KEY_PREVIEW` / `HF_API_KEY_PROD`
